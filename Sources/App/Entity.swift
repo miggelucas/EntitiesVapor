@@ -25,7 +25,7 @@ extension Entity {
     }
     
     static var zeus: Entity {
-        Entity(id: UUID().uuidString,
+        Entity(id: "01",
                deck: "Greek",
                name: "Zeus",
                description: ["God king of gods", "Can throw lightning bolts from his hands"],
@@ -33,7 +33,7 @@ extension Entity {
     }
     
     static var poseidon: Entity {
-        Entity(id: UUID().uuidString,
+        Entity(id: "02",
                deck: "Greek",
                name: "Poseidon",
                description: ["God king of the sea", "Can control the sea level"],
