@@ -7,27 +7,6 @@
 
 import Vapor
 
-protocol EntityService {
-    func getAllEntities() async throws -> [Entity]
-    func getEntity(req: Request) async throws -> Entity
-    
-}
-
-
-struct DatabaseEntityService: EntityService {
-    func getAllEntities() async throws -> [Entity] {
-        return Entity.getAllEntities()
-    }
-    
-    func getEntity(req: Request) async throws -> Entity {
-        guard let id = req.parameters.get("id", as: String.self) else {
-            throw Abort(.badRequest)
-        }
-        
-        let result = Entity.getAllEntities().first(where: {$0.id == id })!
-        return result
-    }
-}
 
 struct EntitiesController: RouteCollection {
     
