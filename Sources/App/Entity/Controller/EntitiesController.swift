@@ -20,6 +20,7 @@ struct EntitiesController: RouteCollection {
         let entitiesRoute = routes.grouped("gods")
         entitiesRoute.get(use: getAllEntities)
         entitiesRoute.get(":id", use: getEntity)
+        entitiesRoute.post("entity", use: registerEntity)
         
     }
     
@@ -28,10 +29,18 @@ struct EntitiesController: RouteCollection {
     }
     
     func getEntity(req: Request) async throws -> Entity {
-        guard req.parameters.get("id", as: String.self) != nil else {
+        guard let id = req.parameters.get("id", as: String.self) else {
             throw Abort(.badRequest)
         }
         
-        return try await entityService.getEntity(req: req)
+        return try await entityService.getEntity(id: id)
+    }
+    
+    func registerEntity(req: Request) async throws  -> HTTPStatus {
+        let entity = try req.content.decode(Entity.self)
+        
+        entityService.registerEntity(entity)
+        
+        return .ok
     }
 }

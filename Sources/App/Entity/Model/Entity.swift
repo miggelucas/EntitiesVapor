@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 
 
-struct Entity: Content {
+struct Entity: Content, Hashable {
     let id: String
     let deck: String
     let name: String

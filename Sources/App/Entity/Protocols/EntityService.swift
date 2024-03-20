@@ -10,7 +10,9 @@ import Vapor
 
 protocol EntityService {
     func getAllEntities() async throws -> [Entity]
-    func getEntity(req: Request) async throws -> Entity
+    func getEntity(id: String) async throws -> Entity
+    func registerEntity(_ entity: Entity)
+    
     
 }
 
