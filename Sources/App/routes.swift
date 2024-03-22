@@ -2,11 +2,6 @@ import Vapor
 
 func routes(_ app: Application) throws {
     
-    let databaseEntityService = InMemoryEntityDatabase()
-    let entitiesController = EntitiesController(entityService: databaseEntityService)
-    try app.register(collection: entitiesController)
-    
-    
     app.get { req async in
         "It works!"
     }
