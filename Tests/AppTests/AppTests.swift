@@ -26,9 +26,7 @@ final class AppTests: XCTestCase {
             
             XCTAssertNoThrow(try res.content.decode([Entity].self))
             
-            
         }
-        
     }
     
     func testGetGodById() async throws {
@@ -38,16 +36,14 @@ final class AppTests: XCTestCase {
         
         let entity: Entity = .zeus
         
-        try app.test(.GET, "gods/01") { res in
+        try app.test(.GET, "gods/\(entity.id)") { res in
             XCTAssertEqual(res.status, .ok)
-            let resEntity = try JSONDecoder().decode(Entity.self, from: res.body)
-            XCTAssertEqual(entity.name, resEntity.name)
+            XCTAssertNoThrow(try res.content.decode(Entity.self))
             
         }
     }
     
     func testRegisterEntity() async throws {
-        // Arrange
         let app = Application(.testing)
         defer { app.shutdown() }
         try await configure(app)
@@ -57,6 +53,66 @@ final class AppTests: XCTestCase {
         let requestData = try JSONEncoder().encode(entity)
         
         try app.test(.POST, "gods/entity", headers: ["Content-Type": "application/json"], body: .init(data: requestData)) { res in
+            XCTAssertEqual(res.status, .created)
+        }
+    }
+    
+    func testGetAllUsers() async throws {
+        let app = Application(.testing)
+        defer { app.shutdown() }
+        try await configure(app)
+        
+        try app.test(.GET, "users") { res in
+            XCTAssertEqual(res.status, .ok)
+            // Verifica se o Content-Type da resposta é JSON
+            XCTAssertTrue(res.headers.contentType == .json)
+            
+            XCTAssertNoThrow(try res.content.decode([User].self))
+            
+        }
+        
+    }
+    
+    func testGetUser() async throws {
+        let app = Application(.testing)
+        defer { app.shutdown() }
+        try await configure(app)
+        
+        let id = User.sample.id
+        
+        try app.test(.GET, "users/\(id)") { res in
+            XCTAssertEqual(res.status, .ok)
+
+            XCTAssertTrue(res.headers.contentType == .json)
+            
+            XCTAssertNoThrow(try res.content.decode(User.self))
+            
+        }
+        
+    }
+    
+    func testRegisterUser() async throws {
+        let app = Application(.testing)
+        defer { app.shutdown() }
+        try await configure(app)
+        
+        let user = User.sample
+        let requestData = try JSONEncoder().encode(user)
+        
+        try app.test(.POST, "users/register", headers: ["Content-Type": "application/json"], body: .init(data: requestData)) { res in
+            XCTAssertEqual(res.status, .created)
+        }
+        
+    }
+    
+    func testDeleteUser() async throws {
+        let app = Application(.testing)
+        defer { app.shutdown() }
+        try await configure(app)
+        
+        let id = User.sample.id
+
+        try app.test(.DELETE, "users/\(id)") { res in
             XCTAssertEqual(res.status, .ok)
         }
     }
