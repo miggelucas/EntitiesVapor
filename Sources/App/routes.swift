@@ -10,4 +10,8 @@ func routes(_ app: Application) throws {
         "Hello, world!"
     }
     
+    app.get("hello", ":name") { req in
+        let name = req.parameters.get("name") ?? "anonymous"
+        return "Hello, \(name)!"
+    }
 }

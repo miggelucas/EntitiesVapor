@@ -8,11 +8,9 @@
 import Foundation
 import Vapor
 
-protocol EntityService {
-    func getAllEntities() async throws -> [Entity]
-    func getEntity(id: String) async throws -> Entity
-    func registerEntity(_ entity: Entity)
-    
-    
-}
+//protocol EntityServiceProtocol {
+//    func getAllEntities() async throws -> [Entity]
+//    func getEntity(id: String) async throws -> Entity
+//    func registerEntity(_ entity: Entity)
+//}
 
