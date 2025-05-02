@@ -8,8 +8,6 @@ enum Entrypoint {
     static func main() async throws {
         var env = try Environment.detect()
         try LoggingSystem.bootstrap(from: &env)
-        let file = try await DotEnvFile.read(path: ".env", fileio: NonBlockingFileIO.init(threadPool: .singleton))
-        file.load()
         
         let app = try await Application.make(env)
 

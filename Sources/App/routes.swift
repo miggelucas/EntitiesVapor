@@ -6,7 +6,7 @@ func routes(_ app: Application) throws {
         "It works!"
     }
     
-    app.get("hello") { req async -> String in
+    app.get("hello") { req in
         "Hello, world!"
     }
     
