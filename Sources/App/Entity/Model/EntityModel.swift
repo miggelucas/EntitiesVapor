@@ -23,11 +23,9 @@ final class Entity: Model, @unchecked Sendable {
     @Field(key: "description")
     var description: String
     
-    init() {
-        
-    }
+    init() {}
     
-    init(id: UUID, name: String, pantheon: Pantheon, description: String) {
+    init(id: UUID?, name: String, pantheon: Pantheon, description: String) {
         self.id = id
         self.name = name
         self.pantheon = pantheon
@@ -36,11 +34,17 @@ final class Entity: Model, @unchecked Sendable {
 }
 
 extension Entity {
-    enum Pantheon: String, Codable {
-        case greek
-        case roman
-        case norse
-        case egyptian
-        case celtic
+    func toDTO() -> EntityDTO {
+        return .init(
+            id: self.id?.uuidString,
+            pantheon: self.pantheon,
+            name: self.name,
+            description: self.description
+        )
     }
 }
+
+
+
+
+

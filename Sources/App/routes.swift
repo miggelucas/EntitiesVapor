@@ -14,4 +14,6 @@ func routes(_ app: Application) throws {
         let name = req.parameters.get("name") ?? "anonymous"
         return "Hello, \(name)!"
     }
+    
+    try app.register(collection: EntityController())
 }
